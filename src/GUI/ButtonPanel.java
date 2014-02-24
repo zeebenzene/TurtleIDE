@@ -24,24 +24,15 @@ public class ButtonPanel extends JPanel{
 	private int curX, curY;
 	private Canvas canvas;
 	
-	
-	
-	
-	//dude I jujst sent this to a repository brah!!!!
-	
-	public ButtonPanel(CanvasContainer turtleCanvas){
+	public ButtonPanel(CanvasContainer container){
 		rootPane = new JPanel(new BorderLayout());
-		canvas = turtleCanvas.getInteriorCanvas();
-		curX = 300;
+		canvas = container.getInteriorCanvas();
+		curX = 295;
 		curY = 485;
 		
 		initButtons();
-		
-		rootPane.add(up, BorderLayout.PAGE_START);
-		rootPane.add(down, BorderLayout.PAGE_END);
-		rootPane.add(left, BorderLayout.LINE_START);
-		rootPane.add(right, BorderLayout.LINE_END);
-		rootPane.add(clear, BorderLayout.CENTER);
+		initRootPane();
+
 		this.add(rootPane);
 		this.addKeyListener(new KeyControls());
 	}
@@ -59,6 +50,14 @@ public class ButtonPanel extends JPanel{
 		left.addActionListener(new moveLeft());
 		right.addActionListener(new moveRight());
 		clear.addActionListener(new clearCanvas());
+	}
+	
+	public void initRootPane(){
+		rootPane.add(up, BorderLayout.PAGE_START);
+		rootPane.add(down, BorderLayout.PAGE_END);
+		rootPane.add(left, BorderLayout.LINE_START);
+		rootPane.add(right, BorderLayout.LINE_END);
+		rootPane.add(clear, BorderLayout.CENTER);
 	}
 	
 	public Image openAndScaleImage(int size, String filePath){
