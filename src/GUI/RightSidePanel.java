@@ -15,7 +15,7 @@ public class RightSidePanel extends JPanel {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		editor = new TextEditor(canvas);
-		cmd = new CommandLine();
+		cmd = new CommandLine(canvas);
 		
 		editor.setMinimumSize(new Dimension(400, 600));
 		editor.setMaximumSize(new Dimension(1000, 1000));

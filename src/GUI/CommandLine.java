@@ -2,6 +2,8 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -12,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import Parser.Evaluator;
+
 
 @SuppressWarnings("serial")
 public class CommandLine extends JPanel{
@@ -19,10 +23,12 @@ public class CommandLine extends JPanel{
 	private JButton runButton;
 	private JScrollPane scrollPane;
 	private JPanel buttonPanel;
+	private Evaluator ev;
 
-	public CommandLine(){
+	public CommandLine(Canvas canvas){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createTitledBorder("Command Line"));
+		this.ev = new Evaluator(canvas);
 		initialize();
 	}
 	
@@ -61,6 +67,7 @@ public class CommandLine extends JPanel{
 	
 	private JButton createRunButton(){
 		JButton button = new JButton("Run");
+		button.addActionListener(new RunCommands());
 		return button;
 	}
 	
@@ -73,5 +80,20 @@ public class CommandLine extends JPanel{
 		area.setCaretColor(Color.WHITE);
 		area.setForeground(Color.WHITE);
 		return area;
+	}
+	
+	public String getText(){
+		String ln = System.getProperty("line.separator");
+		String text = textArea.getText() ;
+		String finalText = text.replaceAll("\n", ln);
+		return finalText;
+	}
+	
+	private class RunCommands implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			ev.eval(getText());
+		}
 	}
 }
