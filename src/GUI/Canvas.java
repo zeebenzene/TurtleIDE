@@ -20,7 +20,7 @@ public class Canvas extends JPanel{
 		this.setBackground(Color.PINK);
 		this.setMinimumSize(new Dimension(500, 500));
 		this.setMaximumSize(new Dimension(500, 500));
-		
+		turtle = new TurtleGraphic(new Point(0, 0), 180.0);
 		clear();
 	}
 
@@ -30,11 +30,11 @@ public class Canvas extends JPanel{
 
 	public void clear(){
 		shapes = new ArrayList<LineGraphic>();
-		turtle = new TurtleGraphic(-10, -10);
+		turtle = new TurtleGraphic(new Point(-10, -10), 180.0);
 	}
 	
-	public void moveTurtle(int x, int y){
-		turtle = new TurtleGraphic(x, y - 20);
+	public void moveTurtle(Point p, double heading){
+		turtle = new TurtleGraphic(p, heading);
 	}
 	
 	@Override
@@ -45,6 +45,7 @@ public class Canvas extends JPanel{
 		for (LineGraphic s: shapes){
 			s.draw(g2d);
 		}
+
 		this.repaint();
 	}
 }

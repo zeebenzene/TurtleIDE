@@ -11,10 +11,10 @@ public class RightSidePanel extends JPanel {
 	TextEditor editor;
 	CommandLine cmd;
 	
-	public RightSidePanel(){
+	public RightSidePanel(Canvas canvas){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		editor = new TextEditor();
+		editor = new TextEditor(canvas);
 		cmd = new CommandLine();
 		
 		editor.setMinimumSize(new Dimension(400, 600));

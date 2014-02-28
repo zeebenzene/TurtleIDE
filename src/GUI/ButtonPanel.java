@@ -21,15 +21,16 @@ import javax.swing.JPanel;
 public class ButtonPanel extends JPanel{
 	private JButton up, down, left, right, clear;
 	private JPanel rootPane; 
-	private int curX, curY;
 	private Canvas canvas;
+	private Commands cmd;
 	
 	public ButtonPanel(CanvasContainer container){
 		rootPane = new JPanel(new BorderLayout());
-		canvas = container.getInteriorCanvas();
-		curX = 295;
-		curY = 485;
+		rootPane.setFocusable(true);
+		rootPane.requestFocusInWindow();
 		
+		canvas = container.getInteriorCanvas();
+		cmd = new Commands(canvas);
 		initButtons();
 		initRootPane();
 
@@ -44,8 +45,8 @@ public class ButtonPanel extends JPanel{
 		right = makeIconButton("rightU.png", "rightP.png");		
 		clear = makeIconButton("clear.png", "clear2.png");
 		
+		rootPane.addKeyListener(new KeyControls());
 		up.addActionListener(new moveUp());
-		up.addKeyListener(new KeyControls());
 		down.addActionListener(new moveDown());
 		left.addActionListener(new moveLeft());
 		right.addActionListener(new moveRight());
@@ -88,50 +89,19 @@ public class ButtonPanel extends JPanel{
 
 		return button;
 	}
-
-	public void up(){
-		canvas.addShape(new LineGraphic("up", curX, curY));
-		canvas.moveTurtle(curX - 5, curY);
-		curY -= 10;
-		canvas.repaint();
-	}
-	public void down(){
-		canvas.addShape(new LineGraphic("down", curX, curY));
-		canvas.moveTurtle(curX - 5, curY + 30);
-		curY += 10;
-		canvas.repaint();
-	}
-	public void left(){
-		canvas.addShape(new LineGraphic("left", curX, curY));
-		canvas.moveTurtle(curX - 20, curY + 15);
-		curX -= 10;
-		canvas.repaint();
-	}
-	public void right(){
-		canvas.addShape(new LineGraphic("right", curX, curY));
-		canvas.moveTurtle(curX + 10, curY + 15);
-		curX += 10;
-		canvas.repaint();
-	}
-	public void clear() {
-		canvas.clear();
-		curX = 300;
-		curY = 485;
-	}
 	
 	public void keyAction(KeyEvent event) {
 	    if (event.getKeyCode() == KeyEvent.VK_UP) {
-	        up();
-	        System.out.println();
+	        cmd.back(1.0);
 	    }
 	    if (event.getKeyCode() == KeyEvent.VK_DOWN) {
-	        down();
+	        cmd.back(5.0);
 	    }
 	    if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-	        left();
+	        cmd.left(5.0);
 	    }
 	    if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-	        right();
+	        cmd.right(1.0);
 	    }
 	}
 	public class KeyControls implements KeyListener {
@@ -149,31 +119,31 @@ public class ButtonPanel extends JPanel{
 	public class moveUp implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			up();
+			cmd.forward(1);
 		}
 	}	
 	public class moveDown implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			down();
+			cmd.back(1);
 		}
 	}
 	public class moveLeft implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			left();
+			cmd.left(1);
 		}			
 	}	
 	public class moveRight implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			right();
+			cmd.right(1);
 		}
 	}
 	public class clearCanvas implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			clear();
+			cmd.clear();
 		}
 	}
 }

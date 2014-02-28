@@ -2,39 +2,24 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 public class LineGraphic {
-	private int x, y, width, height;
+	private int width, height;
+	private Point p1, p2;
 	
-	public LineGraphic(String direction, int x, int y){
-		this.x = x;
-		this.y = y;
-		assignDirection(direction);
-	}
-	
-	public void assignDirection(String dir){
-		if(dir == "up"){
-			width = 2;
-			height = 10;
-			y -= 10;
-		}
-		else if(dir == "down"){
-			width = 2; 
-			height =10;
-		}
-		else if(dir == "left"){
-			x -= 10;
-			width = 10;
-			height = 2;
-		}
-		else if(dir == "right"){
-			width = 10;
-			height = 2;
-		}
+	public LineGraphic(Point p1, Point p2){
+		this.p1 = p1;
+		this.p2 = p2;
 	}
 	
 	public void draw(Graphics g){
-		g.setColor(Color.BLACK);
-		g.fillRect(x, y, width, height);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.BLACK);
+		g2d.setRenderingHint(
+			    RenderingHints.KEY_ANTIALIASING,
+			    RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.drawLine(p1.X(), p1.Y(), p2.X(), p2.Y());
 	}
 }

@@ -1,5 +1,8 @@
 package GUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -9,6 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import edu.hendrix.grambler.ParseException;
+import Parser.Evaluator;
+
 
 @SuppressWarnings("serial")
 public class TextEditor extends JPanel{
@@ -16,10 +22,13 @@ public class TextEditor extends JPanel{
 	private JButton runButton;
 	private JScrollPane scrollPane;
 	private JPanel buttonPanel;
+	private Evaluator ev;
 
-	public TextEditor(){
+	public TextEditor(Canvas canvas){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createTitledBorder("Editor"));
+		ev = new Evaluator(canvas);
+		
 		initialize();
 	}
 	
@@ -58,6 +67,7 @@ public class TextEditor extends JPanel{
 	
 	private JButton createRunButton(){
 		JButton button = new JButton("Run");
+		button.addActionListener(new RunCommands());
 		return button;
 	}
 	
@@ -70,5 +80,20 @@ public class TextEditor extends JPanel{
 	
 	public JTextArea getTextArea(){
 		return textArea;
+	}
+	
+	public String getText(){
+		String ln = System.getProperty("line.separator");
+		String text = textArea.getText() ;
+		String finalText = text.replaceAll("\n", ln);
+		return finalText;
+	}
+	
+	private class RunCommands implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			ev.eval(getText());
+		}
 	}
 }

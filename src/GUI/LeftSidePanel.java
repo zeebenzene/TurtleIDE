@@ -24,7 +24,7 @@ public class LeftSidePanel extends JPanel {
 		this.add(buttonPane);
 	}
 	
-	public JPanel getCanvas(){
+	public Canvas getCanvas(){
 		return canvas.getInteriorCanvas();
 	}
 }

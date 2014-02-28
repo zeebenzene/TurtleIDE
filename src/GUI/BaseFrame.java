@@ -20,7 +20,7 @@ public class BaseFrame extends JFrame{
 		rootPanel = new JPanel();
 		bodyPanel = new JPanel();
 		leftSide = new LeftSidePanel();
-		rightSide = new RightSidePanel();
+		rightSide = new RightSidePanel(leftSide.getCanvas());
 		
 		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
 		bodyPanel.setLayout(new GridLayout(1, 2, 10, 10));
