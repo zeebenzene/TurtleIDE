@@ -83,4 +83,13 @@ public class Commands {
 	public void hideturtle(){
 		canvas.moveTurtle(new Point(-10, -10), 180.0);
 	}
+	
+	// test helpers
+	
+	public double getHeading(){
+		return heading;
+	}
+	public Point getCurrent(){
+		return startP;
+	}
 }
