@@ -3,13 +3,13 @@ package GUI;
 public class Commands {
 	Canvas canvas;
 	Point startP;
-	boolean penup;
+	boolean pendown;
 	double heading, h;
 	
 	public Commands(Canvas canvas){
 		this.canvas = canvas;
 		this.startP = new Point(295, 250);
-		this.penup = false;
+		this.pendown = true;
 		heading = 180.0;
 	}
 	
@@ -37,7 +37,7 @@ public class Commands {
 	
 	public void forward(double length){
 		Point endP = endPointForward((int)length);
-		if(penup == false){
+		if(pendown == true){
 			canvas.addShape(new LineGraphic(startP, endP));	
 		}
 		canvas.moveTurtle(endP, heading);
@@ -47,7 +47,7 @@ public class Commands {
 	}
 	public void back(double length){
 		Point endP = endPointBack((int)length);
-		if(penup == false){
+		if(pendown == true){
 			canvas.addShape(new LineGraphic(startP, endP));
 		}
 		canvas.moveTurtle(endP, heading);
@@ -68,13 +68,14 @@ public class Commands {
 	public void clear() {
 		canvas.clear();
 		this.startP = new Point(295, 250);
+		this.heading = 180.0;
 	}
 	
 	public void penup(){
-		penup = true;
+		pendown = false;
 	}
 	public void pendown(){
-		penup = false;
+		pendown = true;
 	}
 	public void home(){
 		startP = new Point(295, 250);

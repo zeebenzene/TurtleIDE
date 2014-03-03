@@ -13,12 +13,12 @@ public class Evaluator {
 	private HashMap<String, Tree> procToExpression;
 	private HashMap<String, Integer> procVars;
 	private Commands cmd;
-	
+
 	public Evaluator(Canvas canvas){
-//		commands = new ButtonPanel();
+		//		commands = new ButtonPanel();
 		cmd = new Commands(canvas);
 	}
-	
+
 	public void eval(String input) {
 		LogoGrammar p = new LogoGrammar();
 		try {
@@ -27,7 +27,7 @@ public class Evaluator {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String evalTree(Tree t){
 		if(t.isNamed("lines")){
 			evalLines(t);
@@ -48,11 +48,11 @@ public class Evaluator {
 			int num = Integer.parseInt(t.getNamedChild("num").toString());
 			String procVar = procToVar.get(proc);
 			procVars.put(procVar, num);
-			
+
 			Tree procExpr = procToExpression.get(proc);
 			evalTree(procExpr);
 		}
-		
+
 		else if(t.isNamed("repeat")){
 			int num = Integer.parseInt(t.getNamedChild("num").toString());
 			for(int i = 0; i < num; i++){
@@ -71,8 +71,7 @@ public class Evaluator {
 			}
 		}
 		else if(t.isNamed("command")){
-//			System.out.print("doing command stuff " + evalCommandTree(t) + " ");
-			return evalCommandTree(t);
+			evalCommandTree(t);
 		}
 		return "";
 	}
@@ -86,7 +85,7 @@ public class Evaluator {
 			evalTree(t.getNamedChild("line"));
 		}
 	}
-	
+
 	public void evalIf(Tree t){
 		if(t.getName().equals("ifNorm")){		
 			evalIfNorm(t);
@@ -98,14 +97,14 @@ public class Evaluator {
 			evalIfBool(t);
 		}
 	}
-	
+
 	public void evalIfNorm(Tree t){
 		int num1 = Integer.parseInt(t.getChild(2).toString());
 		int num2 = Integer.parseInt(t.getChild(6).toString());
 		String comp = t.getChild(4).toString();
 
 		boolean result = evalComparison(comp, num1, num2);
-		
+
 		if(result == true){
 			evalTree(t.getNamedChild("expr"));
 		}		
@@ -114,7 +113,7 @@ public class Evaluator {
 		int num1 = Integer.parseInt(t.getChild(2).toString());
 		int num2 = Integer.parseInt(t.getChild(6).toString());
 		String comp = t.getChild(4).toString();
-		
+
 		boolean result = evalComparison(comp, num1, num2);
 		if(result == true){
 			evalTree(t.getChild(8));
@@ -127,7 +126,7 @@ public class Evaluator {
 		boolean pCond1 = evalPCondition(t.getChild(2));
 		boolean pCond2 = evalPCondition(t.getChild(6));
 		boolean result = false;
-		
+
 		if(bool.equals("or")){
 			result = (pCond1 || pCond2); 
 		} else if(bool.equals("and")){
@@ -135,20 +134,20 @@ public class Evaluator {
 		} else if(bool.equals("not")){
 			result = (pCond1 && !pCond2);
 		}
-		
+
 		if(result == true){
 			evalTree(t.getNamedChild("expr"));
 		}		
 	}
-	
+
 	public boolean evalPCondition(Tree t){
 		int num1 = Integer.parseInt(t.getChild(1).toString());
 		int num2 = Integer.parseInt(t.getChild(5).toString());
 		String comp = t.getChild(3).toString();
-		
+
 		return evalComparison(comp, num1, num2);
 	}
-	
+
 	public boolean evalComparison(String comp, int num1, int num2){
 		if(comp.equals("<")){
 			if(num1 < num2){ return true; }
@@ -163,42 +162,42 @@ public class Evaluator {
 		} else { return false; }
 		return false;
 	}
-	
-	public String evalCommandTree(Tree t){
+
+	public void evalCommandTree(Tree t){
+		String commandType = t.getChild(0).getName();
 		String command = t.getChild(0).toString();
-		double num = Double.parseDouble((t.getNamedChild("num").toString()));		
-		if(command.equals("fd") || command.equals("forward")){
-			cmd.forward(num);
+		if(commandType.equals("argCmd")){
+			double num = Double.parseDouble((t.getNamedChild("num").toString()));
+			if(command.equals("fd") || command.equals("forward")){
+				cmd.forward(num);
+			} else if(command.equals("lt") || command.equals("left")){
+				cmd.left(num);
+			} else if(command.equals("rt") || command.equals("right")){
+				cmd.right(num);
+			} else if(command.equals("bk") || command.equals("back")){
+				cmd.back(num);
+			}	
 		}
-		else if(command.equals("lt") || command.equals("left")){
-			cmd.left(num);
+		else{
+			if(command.equals("pu") || command.equals("penup")){
+				cmd.penup();
+			} else if(command.equals("pd") || command.equals("pendown")){
+				cmd.pendown();
+			} else if(command.equals("home")){
+				cmd.home();
+			} else if(command.equals("cs") || command.equals("clearscreen")){
+				cmd.clear();
+			} else if(command.equals("hideturtle") || command.equals("showturtle")){
+				cmd.hideturtle();
+			}
 		}
-		else if(command.equals("rt") || command.equals("right")){
-			cmd.right(num);
-		}
-		else if(command.equals("bk") || command.equals("back")){
-			cmd.back(num);
-		} 
-		else if(command.equals("pu") || command.equals("penup")){
-			cmd.penup();
-		} else if(command.equals("pd") || command.equals("pendown")){
-			cmd.pendown();
-		} else if(command.equals("home")){
-			cmd.home();
-		} else if(command.equals("cs") || command.equals("clearscreen")){
-			cmd.clear();
-		} else if(command.equals("hideturtle") || command.equals("showturtle")){
-			cmd.hideturtle();
-		}
-		
-		return command + " " + num;
 	}
-	
-//	public static void main(String[] args) throws ParseException{
-//		LogoGrammar p = new LogoGrammar();
-//		Evaluator e = new Evaluator();
-//		e.evalTree(p.parse("fd 50 rt 90"));
-//	}	
+
+	//	public static void main(String[] args) throws ParseException{
+	//		LogoGrammar p = new LogoGrammar();
+	//		Evaluator e = new Evaluator();
+	//		e.evalTree(p.parse("fd 50 rt 90"));
+	//	}	
 }
 /*
 lines: lines cr if | if;
@@ -296,4 +295,4 @@ cond: bool | comp;
 bool: 'and' | 'or' | 'not';
 comp: '>' | '<' | '>=' | '<=' | '=';
 
-*/
+ */

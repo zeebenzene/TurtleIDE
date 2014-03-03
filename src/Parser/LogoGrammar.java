@@ -4,9 +4,9 @@ public class LogoGrammar extends edu.hendrix.grambler.Grammar {
     public LogoGrammar() {
         super();
         addProduction("lines", new String[]{"lines", "cr", "line"}, new String[]{"line"});
-        addProduction("line", new String[]{"if"}, new String[]{"expr"}, new String[]{"repeat"}, new String[]{"procedure"});
-        addProduction("procedure", new String[]{"'to'", "x", "var", "x", "pVar", "x", "br", "line", "br"});
-        addProduction("pCall", new String[]{"var", "x", "num"});
+        addProduction("line", new String[]{"if"}, new String[]{"expr"}, new String[]{"repeat"});
+        addProduction("procedure", new String[]{"'to'", "x", "var", "x", "pVar", "x", "br", "line", "br"}, new String[]{"pCall"});
+        addProduction("pCall", new String[]{"var", "x", "num", "x", "expr"});
         addProduction("if", new String[]{"ifNorm"}, new String[]{"ifElse"}, new String[]{"ifBool"});
         addProduction("ifNorm", new String[]{"'if'", "x", "num", "x", "comp", "x", "num", "x", "expr"});
         addProduction("ifElse", new String[]{"'ifelse'", "x", "num", "x", "comp", "x", "num", "x", "expr", "x", "expr"});
@@ -17,7 +17,7 @@ public class LogoGrammar extends edu.hendrix.grambler.Grammar {
         addProduction("command", new String[]{"argCmd", "x", "num"}, new String[]{"emptCmd", "x", "num"}, new String[]{"pCall"});
         addProduction("argCmd", new String[]{"'fd'"}, new String[]{"'forward'"}, new String[]{"'bk'"}, new String[]{"'back'"}, new String[]{"'lt'"}, new String[]{"'left'"}, new String[]{"'rt'"}, new String[]{"'right'"});
         addProduction("emptCmd", new String[]{"'pd'"}, new String[]{"'pendown'"}, new String[]{"'pu'"}, new String[]{"'penup'"}, new String[]{"'home'"}, new String[]{"'cs'"}, new String[]{"'clearscreen'"}, new String[]{"'st'"}, new String[]{"'showturtle'"}, new String[]{"'ht'"}, new String[]{"'hideturtle'"});
-        addProduction("num", new String[]{"\"\\d+\""}, new String[]{"pVar"}, new String[]{"addExpr"});
+        addProduction("num", new String[]{"\"\\d+\""}, new String[]{"pVar"});
         addProduction("x", new String[]{"\"\\s*\""});
         addProduction("br", new String[]{"'['"}, new String[]{"']'"}, new String[]{"x"});
         addProduction("pVar", new String[]{"':'", "var"});
@@ -26,13 +26,6 @@ public class LogoGrammar extends edu.hendrix.grambler.Grammar {
         addProduction("pCond", new String[]{"'('", "num", "x", "comp", "x", "num", "')'"});
         addProduction("bool", new String[]{"'and'"}, new String[]{"'or'"}, new String[]{"'not'"});
         addProduction("comp", new String[]{"'>'"}, new String[]{"'<'"}, new String[]{"'>='"}, new String[]{"'<='"}, new String[]{"'='"});
-        addProduction("addExpr", new String[]{"addExpr", "x", "addOp", "x", "mulExpr"}, new String[]{"mulExpr"});
-        addProduction("addOp", new String[]{"'+'"}, new String[]{"'-'"});
-        addProduction("mulExpr", new String[]{"mulExpr", "x", "mulOp", "x", "negExpr"}, new String[]{"negExpr"});
-        addProduction("mulOp", new String[]{"'*'"}, new String[]{"'/'"});
-        addProduction("negExpr", new String[]{"'-'", "x", "parenExpr"}, new String[]{"parenExpr"});
-        addProduction("parenExpr", new String[]{"'('", "x", "addExpr", "x"}, new String[]{"symbol"});
-        addProduction("symbol", new String[]{"var"}, new String[]{"num"});
     }
 }
 

@@ -2,14 +2,12 @@ package GUI;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -21,7 +19,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 @SuppressWarnings("serial")
 public class FileMenu extends JPanel{
@@ -101,10 +98,10 @@ public class FileMenu extends JPanel{
 	    }
 	}
 	
-	private void showAlert(String message, String title){
-		JFrame f = new JFrame();
-		JOptionPane.showMessageDialog(f, message, title, JOptionPane.ERROR_MESSAGE);
-	}
+//	private void showAlert(String message, String title){
+//		JFrame f = new JFrame();
+//		JOptionPane.showMessageDialog(f, message, title, JOptionPane.ERROR_MESSAGE);
+//	}
 	
 	////////////////ACTION LISTENERS/////////////////////
 	private class ActionClose implements ActionListener{

@@ -27,6 +27,7 @@ public class ButtonPanel extends JPanel{
 	public ButtonPanel(CanvasContainer container){
 		rootPane = new JPanel(new BorderLayout());
 		rootPane.setFocusable(true);
+		rootPane.setFocusTraversalKeysEnabled(true);
 		rootPane.requestFocusInWindow();
 		
 		canvas = container.getInteriorCanvas();
@@ -92,7 +93,7 @@ public class ButtonPanel extends JPanel{
 	
 	public void keyAction(KeyEvent event) {
 	    if (event.getKeyCode() == KeyEvent.VK_UP) {
-	        cmd.back(1.0);
+	        cmd.forward(5.0);
 	    }
 	    if (event.getKeyCode() == KeyEvent.VK_DOWN) {
 	        cmd.back(5.0);
@@ -101,7 +102,7 @@ public class ButtonPanel extends JPanel{
 	        cmd.left(5.0);
 	    }
 	    if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-	        cmd.right(1.0);
+	        cmd.right(5.0);
 	    }
 	}
 	public class KeyControls implements KeyListener {
@@ -119,25 +120,25 @@ public class ButtonPanel extends JPanel{
 	public class moveUp implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			cmd.forward(1);
+			cmd.forward(5);
 		}
 	}	
 	public class moveDown implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			cmd.back(1);
+			cmd.back(5);
 		}
 	}
 	public class moveLeft implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			cmd.left(1);
+			cmd.left(5);
 		}			
 	}	
 	public class moveRight implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			cmd.right(1);
+			cmd.right(5);
 		}
 	}
 	public class clearCanvas implements ActionListener {

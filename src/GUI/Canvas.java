@@ -3,7 +3,6 @@ package GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -31,6 +30,7 @@ public class Canvas extends JPanel{
 	public void clear(){
 		shapes = new ArrayList<LineGraphic>();
 		turtle = new TurtleGraphic(new Point(-10, -10), 180.0);
+		repaint();
 	}
 	
 	public void moveTurtle(Point p, double heading){
@@ -40,12 +40,9 @@ public class Canvas extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D)g;
-		turtle.draw(g2d);
 		for (LineGraphic s: shapes){
-			s.draw(g2d);
+			s.draw(g);
 		}
-
-		this.repaint();
+		turtle.draw(g);
 	}
 }

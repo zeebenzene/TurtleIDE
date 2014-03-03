@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 public class LineGraphic {
-	private int width, height;
 	private Point p1, p2;
 	
 	public LineGraphic(Point p1, Point p2){
