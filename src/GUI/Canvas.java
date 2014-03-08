@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -35,6 +38,19 @@ public class Canvas extends JPanel{
 	
 	public void moveTurtle(Point p, double heading){
 		turtle = new TurtleGraphic(p, heading);
+		if(p.X() >= 600 || p.X() <= 0){
+			showAlert();
+		}
+		if(p.Y() >= 475 || p.Y() <= 0){
+			showAlert();
+		}
+	}
+	
+	public void showAlert(){
+		JFrame f = new JFrame();
+		String errorMessage = "Turtle is out of the pane. You can type \"clear\" to bring it back to the starting position. Or you can.. you know, not.";
+		String errorTitle = "Turtle Out Of Bounds";
+		JOptionPane.showMessageDialog(f, errorMessage, errorTitle, JOptionPane.ERROR_MESSAGE);
 	}
 	
 	@Override

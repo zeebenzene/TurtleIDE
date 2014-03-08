@@ -12,7 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-import edu.hendrix.grambler.ParseException;
 import Parser.Evaluator;
 
 
@@ -22,12 +21,14 @@ public class TextEditor extends JPanel{
 	private JButton runButton;
 	private JScrollPane scrollPane;
 	private JPanel buttonPanel;
+	private CommandLine cmdLine;
 	private Evaluator ev;
 
-	public TextEditor(Canvas canvas){
+	public TextEditor(Commands cmds, CommandLine cmdLN){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createTitledBorder("Editor"));
-		ev = new Evaluator(canvas);
+		ev = new Evaluator(cmds, cmdLN);
+		cmdLine = cmdLN;
 		
 		initialize();
 	}
@@ -93,6 +94,7 @@ public class TextEditor extends JPanel{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			cmdLine.clearText();
 			ev.eval(getText());
 		}
 	}

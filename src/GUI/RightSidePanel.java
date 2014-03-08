@@ -9,22 +9,22 @@ import javax.swing.JTextArea;
 @SuppressWarnings("serial")
 public class RightSidePanel extends JPanel {
 	TextEditor editor;
-	CommandLine cmd;
+	CommandLine cmdLine;
 	
-	public RightSidePanel(Canvas canvas){
+	public RightSidePanel(Commands c){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		editor = new TextEditor(canvas);
-		cmd = new CommandLine(canvas);
+		cmdLine = new CommandLine(c);
+		editor = new TextEditor(c, cmdLine);
 		
 		editor.setMinimumSize(new Dimension(400, 600));
 		editor.setMaximumSize(new Dimension(1000, 1000));
 		
-		cmd.setMinimumSize(new Dimension(400, 200));
-		cmd.setMaximumSize(new Dimension(1000, 400));
+		cmdLine.setMinimumSize(new Dimension(400, 200));
+		cmdLine.setMaximumSize(new Dimension(1000, 400));
 		
 		this.add(editor);
-		this.add(cmd);
+		this.add(cmdLine);
 	}
 	
 	public JTextArea getTextArea(){

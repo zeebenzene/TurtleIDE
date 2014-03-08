@@ -22,7 +22,7 @@ public class TurtleGraphic {
 	}
 	
 	public void draw(Graphics g){
-		Rectangle rectangle = new Rectangle(p.X(), p.Y(), 5, 8);
+		Rectangle rectangle = new Rectangle((int)p.X(), (int)p.Y(), 5, 8);
 	
 		AffineTransform transform = new AffineTransform();
 		transform.rotate(-Math.toRadians(heading), rectangle.getX() + rectangle.width/2, rectangle.getY() + rectangle.height/2);

@@ -6,16 +6,9 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class CanvasContainer extends JPanel{
-	Canvas canvas;
-	
-	public CanvasContainer(){
-		canvas = new Canvas();
+	public CanvasContainer(Canvas canvas){
 		this.setBorder(BorderFactory.createTitledBorder("Turtle Canvas"));
 		this.setLayout(new BorderLayout());
 		this.add(canvas);
-	}
-	
-	public Canvas getInteriorCanvas(){
-		return canvas;
 	}
 }

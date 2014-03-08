@@ -7,24 +7,18 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class LeftSidePanel extends JPanel {
-	CanvasContainer canvas;
+	CanvasContainer canvasBox;
 	ButtonPanel buttonPane;
-	public LeftSidePanel(){
+	public LeftSidePanel(Canvas canvas, Commands c){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		canvas = new CanvasContainer();
-		buttonPane = new ButtonPanel(canvas);
+		buttonPane = new ButtonPanel(c);
+		canvasBox = new CanvasContainer(canvas);
 		
-		canvas.setPreferredSize(new Dimension(500, 500));
-		canvas.setMaximumSize(new Dimension(600, 508));
-		buttonPane.setPreferredSize(new Dimension(240, 240));
-		buttonPane.setMaximumSize(new Dimension(240, 240));
+		canvasBox.setPreferredSize(new Dimension(600, 500));
+		canvasBox.setMaximumSize(new Dimension(600, 500));		
 		
-		this.add(canvas);
+		this.add(canvasBox);
 		this.add(buttonPane);
-	}
-	
-	public Canvas getCanvas(){
-		return canvas.getInteriorCanvas();
 	}
 }

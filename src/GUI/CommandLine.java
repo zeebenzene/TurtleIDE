@@ -25,10 +25,11 @@ public class CommandLine extends JPanel{
 	private JPanel buttonPanel;
 	private Evaluator ev;
 
-	public CommandLine(Canvas canvas){
+	public CommandLine(Commands cmds){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createTitledBorder("Command Line"));
-		this.ev = new Evaluator(canvas);
+		this.ev = new Evaluator(cmds, this);
+		
 		initialize();
 	}
 	
@@ -84,9 +85,30 @@ public class CommandLine extends JPanel{
 	
 	public String getText(){
 		String ln = System.getProperty("line.separator");
-		String text = textArea.getText() ;
+		String text = textArea.getText();
 		String finalText = text.replaceAll("\n", ln);
 		return finalText;
+	}
+	
+	public void clearText(){
+		textArea.setText("");
+		textArea.setForeground(Color.white);
+	}
+	
+	private void setText(String text){
+		String prevText = textArea.getText();
+		if(prevText.equals("")){ textArea.setText(text);}
+		else { textArea.setText(prevText + "\n" + text); }
+	}
+	
+	public void setConfirmation(String text){
+		textArea.setForeground(Color.white);
+		setText(text);
+	}
+	
+	public void setError(String text){
+		textArea.setForeground(Color.red);
+		setText(text);
 	}
 	
 	private class RunCommands implements ActionListener{

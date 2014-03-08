@@ -8,25 +8,26 @@ public class Commands {
 	
 	public Commands(Canvas canvas){
 		this.canvas = canvas;
-		this.startP = new Point(295, 250);
+		this.startP = new Point(300, 475);
 		this.pendown = true;
 		heading = 180.0;
 	}
 	
-	public Point endPointForward(int length){
-		int endX = (int) (startP.X() + (length * Math.sin(Math.toRadians(heading))));
-		int endY = (int) (startP.Y() + (length * Math.cos(Math.toRadians(heading))));
+	public Point endPointForward(double length){
+		double endX = (startP.X() + (length * Math.sin(Math.toRadians(heading))));
+		double endY = (startP.Y() + (length * Math.cos(Math.toRadians(heading))));
 		return new Point(endX, endY);
 	}
 	
-	public Point endPointBack(int length){
-		int endX = (int) (startP.X() - (length * Math.sin(Math.toRadians(heading))));
-		int endY = (int) (startP.Y() - (length * Math.cos(Math.toRadians(heading))));
+	public Point endPointBack(double length){
+		double endX = (startP.X() + (length * Math.sin(Math.toRadians(-heading))));
+		double endY = (startP.Y() - (length * Math.cos(Math.toRadians(-heading))));
+		
 		return new Point(endX, endY);
 	}
 	
 	public double normalizeDegree(double deg){
-		if(deg > 360){
+		if(deg >= 360){
 			deg = deg - 360;
 		}
 		else if (deg <= 0){
@@ -36,7 +37,7 @@ public class Commands {
 	}
 	
 	public void forward(double length){
-		Point endP = endPointForward((int)length);
+		Point endP = endPointForward(length);
 		if(pendown == true){
 			canvas.addShape(new LineGraphic(startP, endP));	
 		}
@@ -46,7 +47,7 @@ public class Commands {
 		canvas.repaint();
 	}
 	public void back(double length){
-		Point endP = endPointBack((int)length);
+		Point endP = endPointBack(length);
 		if(pendown == true){
 			canvas.addShape(new LineGraphic(startP, endP));
 		}
@@ -67,10 +68,9 @@ public class Commands {
 	}
 	public void clear() {
 		canvas.clear();
-		this.startP = new Point(295, 250);
+		this.startP = new Point(300.0, 475.0);
 		this.heading = 180.0;
 	}
-	
 	public void penup(){
 		pendown = false;
 	}
@@ -78,15 +78,15 @@ public class Commands {
 		pendown = true;
 	}
 	public void home(){
-		startP = new Point(295, 250);
+		startP = new Point(300.0, 230.0);
 		canvas.moveTurtle(startP, 180.0);
+		this.heading = 180.0;
+		canvas.repaint();
 	}
 	public void hideturtle(){
-		canvas.moveTurtle(new Point(-10, -10), 180.0);
+		canvas.moveTurtle(new Point(-10.0, -10.0), 180.0);
 	}
-	
-	// test helpers
-	
+		
 	public double getHeading(){
 		return heading;
 	}

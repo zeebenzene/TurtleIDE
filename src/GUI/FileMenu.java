@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 
 import javax.imageio.ImageIO;
@@ -42,16 +44,19 @@ public class FileMenu extends JPanel{
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = createMenu("File");
 		JMenuItem menuItem1 = createMenuItem("Exit", "Exit Application");
-		JMenuItem menuItem2 = createMenuItem("Save LOGO File", "Save code to text file");
-        JMenuItem menuItem3 = createMenuItem("Save Canvas", "Save Canvas to Image");
+		JMenuItem menuItem2 = createMenuItem("Open LOGO File", "Open file into Text Editor");
+		JMenuItem menuItem3 = createMenuItem("Save LOGO File", "Save code to text file");
+        JMenuItem menuItem4 = createMenuItem("Save Canvas", "Save Canvas to Image");
 		
         menuItem1.addActionListener(new ActionClose());
-        menuItem2.addActionListener(new ActionSaveText());
-        menuItem3.addActionListener(new ActionSaveImage());
+        menuItem2.addActionListener(new ActionOpenText());
+        menuItem3.addActionListener(new ActionSaveText());
+        menuItem4.addActionListener(new ActionSaveImage());
         
         menu.add(menuItem1);
         menu.add(menuItem2);
         menu.add(menuItem3);
+        menu.add(menuItem4);
         menuBar.add(menu);
         return menuBar;
 	}
@@ -77,7 +82,7 @@ public class FileMenu extends JPanel{
 	        try {
 	        	ImageIO.write(content, "png", new File(chooser.getSelectedFile() + ".png"));
 	        } catch (Exception ex) {
-	            ex.printStackTrace();
+	            showAlert("Could Not Save Canvas to Image", "Image Save Error");
 	        }
 	    }
 	}
@@ -93,15 +98,39 @@ public class FileMenu extends JPanel{
 	        	fw.write(text);
 	        	fw.close();
 	        } catch (Exception ex) {
-	            ex.printStackTrace();
+	            showAlert("Could Not Save LOGO File", "File Save Error");
 	        }
 	    }
 	}
 	
-//	private void showAlert(String message, String title){
-//		JFrame f = new JFrame();
-//		JOptionPane.showMessageDialog(f, message, title, JOptionPane.ERROR_MESSAGE);
-//	}
+	@SuppressWarnings("resource")
+	public void createTextOpenChooser(){
+		String finalText = "";
+		JFileChooser chooser = new JFileChooser();
+	    chooser.setCurrentDirectory(new File("/Documents"));
+	    int retreival = chooser.showOpenDialog(null);
+	    if (retreival == JFileChooser.APPROVE_OPTION) {
+	        try {
+	        	File file = chooser.getSelectedFile();
+	        	BufferedReader reader = new BufferedReader(new FileReader(file));
+	            while ((finalText = reader.readLine()) != null) {
+	            	addText(finalText + "\n");
+	        	}
+	        } catch (Exception ex) {
+	        	showAlert("Could Not Open LOGO File", "File Read Error");
+	        }
+	    }
+	}
+	
+	public void addText(String text){
+		String prev = textEditor.getText();
+		textEditor.setText(prev + text);
+	}
+	
+	private void showAlert(String message, String title){
+		JFrame f = new JFrame();
+		JOptionPane.showMessageDialog(f, message, title, JOptionPane.ERROR_MESSAGE);
+	}
 	
 	////////////////ACTION LISTENERS/////////////////////
 	private class ActionClose implements ActionListener{
@@ -119,6 +148,13 @@ public class FileMenu extends JPanel{
 			String finalText = text.replaceAll("\n", ln);
 
 			createTextSaveChooser(finalText);
+		}
+	}
+	
+	private class ActionOpenText implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			createTextOpenChooser();
 		}
 	}
 	

@@ -1,17 +1,17 @@
 package GUI;
 
 public class Point {
-	private int x;
-	private int y;
-	public Point(int x, int y){
-		this.x = x;
-		this.y = y;
+	private double x;
+	private double y;
+	public Point(double d, double e){
+		this.x = d;
+		this.y = e;
 	}
-	public int X(){
+	public double X(){
 		return x;
 	}
 	
-	public int Y(){
+	public double Y(){
 		return y;
 	}
 }
