@@ -61,7 +61,6 @@ public class Evaluator {
 			
 			Tree procExpr = procToExpression.get(procedure);
 			evalTree(procExpr);
-			
 			cmdLine.setConfirmation("CONFIRMATION: Doing Procedure " + procedure);
 
 		} else if(t.isNamed("repeat")){
@@ -73,7 +72,6 @@ public class Evaluator {
 			
 		} else if(t.isNamed("if")){
 			evalIf(t.getChild(0));
-			
 			cmdLine.setConfirmation("CONFIRMATION: Evaluating conditional " + t.getChild(0).getName());
 
 		} else if(t.isNamed("expr")){
